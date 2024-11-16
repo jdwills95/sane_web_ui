@@ -9,6 +9,10 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# Get the absolute path to the 'assets' folder
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the base directory (the directory of scan_ui.py)
+ASSETS_DIR = os.path.join(BASE_DIR, 'assets')  # Join it with the 'assets' folder
+
 # Fetch settings from the environment variables
 SCAN_DIR = os.getenv("SCAN_DIR", "/home/darth/scans")  # Default to /home/darth/scans if not set
 PORT = int(os.getenv("PORT", 5000))  # Default to port 5000 if not set
@@ -43,9 +47,24 @@ def scan():
 
 @app.route('/download/<file_name>')
 def download(file_name):
-    # Send the generated file to the user
+    # Construct the full file path
     file_path = os.path.join(SCAN_DIR, f"{file_name}.png")
-    return send_from_directory(SCAN_DIR, f"{file_name}.png", as_attachment=True)
+    
+    try:
+        # Send the generated file to the user
+        response = send_from_directory(SCAN_DIR, f"{file_name}.png", as_attachment=True)
+        
+        # Delete the file after it has been downloaded
+        os.remove(file_path)
+        
+        return response
+    except FileNotFoundError:
+        return "File not found", 404
+
+# Serve assets like JavaScript, CSS, and images from the assets folder
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    return send_from_directory(ASSETS_DIR, filename)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)
