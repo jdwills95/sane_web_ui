@@ -1,2 +1,12 @@
 # .gitignore
 .env
+
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Python virtual environments
+env/
+venv/
