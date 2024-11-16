@@ -1,7 +1,7 @@
 import os
 import subprocess
 import datetime
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, redirect, url_for
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -57,7 +57,7 @@ def download(file_name):
         # Delete the file after it has been downloaded
         os.remove(file_path)
         
-        return render_template('index.html')
+        return response
     except FileNotFoundError:
         return "File not found", 404
 

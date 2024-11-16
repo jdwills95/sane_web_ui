@@ -8,29 +8,39 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to switch themes
     function toggleTheme() {
         document.body.classList.toggle("light-mode");
+
         // Save the user's preference in localStorage
         if (document.body.classList.contains("light-mode")) {
             localStorage.setItem("theme", "light");
-            themeToggleBtn.textContent = "🌙"; // Moon icon
+            themeToggleBtn.textContent = "🌙"; // Moon icon (for switching to dark)
         } else {
             localStorage.setItem("theme", "dark");
-            themeToggleBtn.textContent = "🌞"; // Sun icon
+            themeToggleBtn.textContent = "🌞"; // Sun icon (for switching to light)
         }
     }
 
     // Check localStorage for theme preference
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
+        // Apply saved theme and adjust the button icon
         if (savedTheme === "light") {
             document.body.classList.add("light-mode");
-            themeToggleBtn.textContent = "🌞"; // Sun icon
+            themeToggleBtn.textContent = "🌙"; // Moon icon (for switching to dark)
+        } else {
+            document.body.classList.remove("light-mode");
+            themeToggleBtn.textContent = "🌞"; // Sun icon (for switching to light)
         }
     } else if (prefersDarkScheme.matches) {
-        // Default to dark theme if no saved preference and system is dark
+        // Default to dark theme if no saved preference and system prefers dark
         document.body.classList.remove("light-mode");
-        themeToggleBtn.textContent = "🌙"; // Moon icon
+        themeToggleBtn.textContent = "🌞"; // Moon icon (for switching to dark)
+    } else {
+        // Default to light theme if no saved preference and system prefers light
+        document.body.classList.add("light-mode");
+        themeToggleBtn.textContent = "🌙"; // Sun icon (for switching to light)
     }
 
+    // Listen for theme toggle button click
     themeToggleBtn.addEventListener("click", toggleTheme);
 
     // Handle the form submission to show the spinner and disable the button
