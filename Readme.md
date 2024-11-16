@@ -6,10 +6,7 @@ This project provides a lightweight web interface for scanning documents or imag
 
 - **Web Interface**: A simple web UI built using Flask to scan images from a connected scanner.
 - **Customizable Formats**: Choose between PNG, TIFF, and PDF formats.
-- **Loading Animation**: Displays a loading spinner while the scan is in progress.
 - **File Download**: Download the scanned image once the scan is complete.
-- **Button Disablement**: The "Scan" button is disabled once clicked to prevent multiple submissions.
-- **Local Asset**: The loading spinner is served locally from a `spinner.gif` file.
 
 ## Requirements
 
@@ -19,7 +16,7 @@ This project provides a lightweight web interface for scanning documents or imag
 
 ## Installation
 
-### 1. Install Required Packages
+### Install Required Packages
 
 #### On Debian/Ubuntu-based systems:
 ```bash
@@ -35,7 +32,7 @@ sudo pacman -S python-pip sane
 - `python3-pip`: The Python package manager for installing Flask.
 - `sane-utils`: Tools for scanning (including `scanimage`).
 
-### 2. Install Python Dependencies
+### Install Python Dependencies
 
 Clone the repository and install the required Python libraries:
 
@@ -45,88 +42,46 @@ cd sane_web_ui
 pip3 install -r requirements.txt
 ```
 
-Create a `requirements.txt` file with the following dependencies:
+## Running the Application
 
-```
-Flask
-```
+1. **Set Up the `.env` File**:
+   - Ensure you have a `.env` file in your project directory with the necessary environment variables set, including `SCAN_DIR` (where the scans will be saved) and `PORT` (the port the server will listen on).
+   
+   Example `.env` file:
+   ```env
+   SCAN_DIR=/path/to/scans
+   PORT=5000
+   ```
+2. **Navigate to the Project Directory**:
+   - Open a terminal and `cd` into the `sane_web_ui` directory (where the `app.py` script is located).
+   
+   ```bash
+   cd /path/to/sane_web_ui
+   ```
 
-### 3. Set Up the Project Directory
+2. **Run the Application in the Background with `nohup` and `Gunicorn`**:
+   - Use the following `nohup` command to run the application with `Gunicorn` in the background. This will allow the application to continue running even after you close the terminal.
+   
+   ```bash
+   nohup sudo gunicorn -w 4 -b 0.0.0.0:$(grep PORT .env | cut -d '=' -f2) --timeout 300 app:app &
+   ```
 
-Ensure the following directory structure:
+### Project Directory
+
+Directory structure:
 
 ```
 /home/username/sane_web_sane/
-│
-├── assets/
-│   └── spinner.gif   # Your spinner GIF file
-│
-├── scans/            # Directory where scanned images are saved
-│
-└── scan_ui.py        # Flask app script
-└── templates/
-    └── index.html    # Your HTML file
-    └── success.html  # Success page template
-    └── failure.html  # Failure page template
+├── app.py                  # Main Python script
+├── .env                    # Environment variables
+├── assets/                 # Directory containing static assets like CSS/JS/images
+│   ├── style.css
+│   └── script.js
+└── templates/              # HTML templates
+    ├── index.html
+    ├── success.html
+    └── failure.html
 ```
-
-### 4. Place the Spinner GIF
-
-Place your `spinner.gif` file into the `/home/username/sane_web_sane/assets/` directory. You can download a GIF from a free source or create your own loading animation.
-
-### 5. Run the Flask App
-
-To run the web application, execute the following command:
-
-```bash
-python3 /home/username/sane_web_sane/scan_ui.py
-```
-
-This will start the Flask server, and the app will be accessible from any device on the same network at `http://<your-linux-machine-ip>:5000/`.
-
-### 6. Configure SANE (Optional)
-
-If your scanner is not detected by the `scanimage` command, you may need to configure SANE. Check your scanner's documentation for setup instructions or refer to the [SANE website](http://www.sane-project.org/).
-
-### 7. Access the Web UI
-
-- Open a browser and navigate to `http://<your-linux-machine-ip>:5000/`.
-- Select the desired file format (PNG, TIFF, or PDF) from the dropdown.
-- Click the "Scan" button, and the scanner will begin scanning.
-- The "Scan" button will be disabled, and a loading spinner will be shown while the scan is in progress.
-- Once the scan completes, you will see a success or failure page, with an option to download the scanned image.
-
-## File Structure
-
-### 1. `scan_ui.py`
-
-This is the main Flask application script. It handles:
-- Starting the Flask web server.
-- Running the `scanimage` command.
-- Serving the static spinner image.
-- Handling user requests for scanning and downloading.
-
-### 2. `index.html`
-
-This is the main web page. It provides:
-- A dropdown for the user to select the image format (`PNG`, `TIFF`, or `PDF`).
-- A button to initiate the scan.
-- A loading spinner that is displayed while the scan is in progress.
-
-### 3. `assets/spinner.gif`
-
-A local loading spinner GIF that is displayed when the scanning process is running.
-
-### 4. `templates/`
-
-This folder contains the HTML templates:
-- `index.html`: The main form to choose the scan format and trigger the scan.
-- `success.html`: Displays after a successful scan, with a link to download the image.
-- `failure.html`: Displays if the scan fails.
-
-### 5. `scans/`
-
-This directory stores the scanned images. The scanned images will be saved here with a timestamp and the selected file format.
 
 ## Usage
 
