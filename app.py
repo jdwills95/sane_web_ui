@@ -57,8 +57,7 @@ def download(file_name):
         # Delete the file after it has been downloaded
         os.remove(file_path)
         
-        # Redirect back to the index page after download
-        return redirect(url_for('index'))
+        return response
     except FileNotFoundError:
         return "File not found", 404
 
