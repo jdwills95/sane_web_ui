@@ -8,10 +8,17 @@
     <script src="/assets/script.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Scan an Image</h1>
-        <button id="theme-toggle" class="theme-toggle-btn">🌙</button> <!-- Theme toggle button -->
+    <!-- Header with Scan heading and theme toggle button -->
+    <header id="page-header">
+        <div class="header-text-box">
+            <h1>Scan an Image</h1>
+        </div>
+        <div class="theme-toggle-box">
+            <button id="theme-toggle" class="theme-toggle-btn">🌙</button> <!-- Theme toggle button -->
+        </div> 
+    </header>
 
+    <div class="container">
         <form id="scanForm" action="/scan" method="POST">
             <div class="form-group">
                 <label for="file_type">Select File Type</label>
@@ -25,12 +32,15 @@
             <div class="form-group">
                 <button type="submit" id="scanButton" class="btn btn-primary">Scan</button>
             </div>
-
-            <!-- Loading spinner, initially hidden -->
-            <div id="loadingSpinner" style="display:none;">
-                <img src="/assets/spinner.gif" alt="Loading..." />
-            </div>
         </form>
+
+        <!-- Light gray overlay -->
+        <div id="overlay"></div>
+
+        <!-- Loading spinner -->
+        <div id="loadingSpinner">
+            <img src="/assets/spinner.gif" alt="Loading..." />
+        </div>
     </div>
 </body>
 </html>

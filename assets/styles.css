@@ -4,13 +4,15 @@ body {
     background-color: #1a1a1a;
     color: #eaeaea;
     margin: 0;
-    padding: 20px;
+    padding: 0;  /* Remove default padding */
     transition: background-color 0.3s, color 0.3s;
 }
 
+/* Container for the content, add padding to make room for the header */
 .container, .content {
     max-width: 600px;
     margin: 0 auto;
+    padding-top: 80px;  /* Make space for the header */
 }
 
 h1 {
@@ -45,14 +47,71 @@ a {
     color: #ffcc00;
 }
 
+/* Header with 100% opacity and solid background */
+header {
+    position: fixed; /* Fix the header at the top of the screen */
+    top: 0;
+    left: 0;
+    right: 0;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 10; /* Ensure it stays on top */
+    box-sizing: border-box; /* Ensure padding doesn't affect layout */
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.header-text-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-toggle-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Theme toggle button - Positioned in the top-right corner */
 #theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
     background: none;
     border: none;
     font-size: 24px;
     cursor: pointer;
+    color: #fff;
+}
+
+/* Overlay when scan button is clicked */
+#overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(169, 169, 169, 0.5); /* Light gray with transparency */
+    z-index: 500; /* Overlay stays below the theme toggle */
+    padding-right: 40px; /* Ensure it doesn't cover the theme toggle button on the top-right */
+}
+
+/* Centered spinner */
+#loadingSpinner {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1002; /* Ensure it appears above the overlay */
+}
+
+#loadingSpinner img {
+    width: 50px;
+    height: 50px;
 }
 
 /* Light theme styles */
@@ -76,4 +135,9 @@ body.light-mode a {
 
 body.light-mode #theme-toggle {
     color: #0056b3;
+}
+
+/* Specific styling for the label in light mode */
+body.light-mode .form-group label {
+    color: black;  /* Change label color to black in light mode */
 }
