@@ -23,7 +23,7 @@ os.makedirs(SCAN_DIR, exist_ok=True)
 # Function to scan the image
 def scan_image(file_type, file_name):
     """ Simulate the scanning process by running the bash function """
-    command = f"scanimage --mode Color --resolution 300 --format={file_type} > {SCAN_DIR}/{file_name}.{file_type}"
+    command = f"scanimage --mode Color --resolution 600 --format={file_type} > {SCAN_DIR}/{file_name}.{file_type}"
     try:
         subprocess.run(command, shell=True, check=True)
         return True
