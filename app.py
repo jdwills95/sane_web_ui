@@ -57,7 +57,7 @@ def download(file_name):
         # Delete the file after it has been downloaded
         os.remove(file_path)
         
-        return response
+        return render_template('index.html')
     except FileNotFoundError:
         return "File not found", 404
 
