@@ -11,7 +11,11 @@
     <div class="content">
         <h1>Scan Complete!</h1>
         <p>Your image has been successfully scanned and saved as: <strong>{{ file_name }}</strong></p>
-        <p><a href="/download/{{ file_name }}" download>Click here to download the scanned image</a></p>
+        
+        <div class="options">
+            <p><a href="/download/{{ file_name }}" class="btn btn-primary" download>Download the scanned image</a></p>
+            <p><a href="/" class="btn btn-secondary">Scan another file</a></p>
+        </div>
     </div>
 </body>
 </html>
