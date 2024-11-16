@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Image</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="static/script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Scan an Image</h1>
+        <button id="theme-toggle" class="theme-toggle-btn">🌙</button> <!-- Theme toggle button -->
+
+        <form id="scanForm" action="/scan" method="POST">
+            <div class="form-group">
+                <label for="file_type">Select File Type</label>
+                <select id="file_type" name="file_type" class="form-control">
+                    <option value="png">PNG</option>
+                    <option value="tiff">TIFF</option>
+                    <option value="pdf">PDF</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" id="scanButton" class="btn btn-primary">Scan</button>
+            </div>
+
+            <!-- Loading spinner, initially hidden -->
+            <div id="loadingSpinner" style="display:none;">
+                <img src="/assets/spinner.gif" alt="Loading..." />
+            </div>
+        </form>
+    </div>
+</body>
+</html>

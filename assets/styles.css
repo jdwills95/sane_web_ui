@@ -1,0 +1,79 @@
+/* Default dark theme styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #eaeaea;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container, .content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #ffcc00;
+}
+
+.form-group label {
+    color: #eaeaea;
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #ffcc00;
+    color: #1a1a1a;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+a {
+    color: #ffcc00;
+}
+
+#theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Light theme styles */
+body.light-mode {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+body.light-mode h1 {
+    color: #0056b3;
+}
+
+body.light-mode button {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+body.light-mode a {
+    color: #0056b3;
+}
+
+body.light-mode #theme-toggle {
+    color: #0056b3;
+}
