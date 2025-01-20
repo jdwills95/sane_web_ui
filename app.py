@@ -37,7 +37,7 @@ def index():
 @app.route('/scan', methods=['POST'])
 def scan():
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    file_type = 'png'  # Default to png, can be modified based on form input
+    file_type = request.form.get('file_type', 'png')  # Default to 'png' if not provided    
     file_name = f'scannedimage_{timestamp}'
     
     if scan_image(file_type, file_name):
