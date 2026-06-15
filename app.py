@@ -39,20 +39,21 @@ def scan():
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     file_type = request.form.get('file_type', 'png')  # Default to 'png' if not provided    
     file_name = f'scannedimage_{timestamp}'
+    full_file_name = f"{file_name}.{file_type}"
     
     if scan_image(file_type, file_name):
-        return render_template('success.html', file_name=file_name, file_type=file_type)
+        return render_template('success.html', file_name=full_file_name, file_type=file_type)
     else:
         return render_template('failure.html')
 
 @app.route('/download/<file_name>')
 def download(file_name):
     # Construct the full file path
-    file_path = os.path.join(SCAN_DIR, f"{file_name}.png")
+    file_path = os.path.join(SCAN_DIR, file_name)
     
     try:
         # Send the generated file to the user
-        response = send_from_directory(SCAN_DIR, f"{file_name}.png", as_attachment=True)
+        response = send_from_directory(SCAN_DIR, file_name, as_attachment=True)
         
         # Delete the file after it has been downloaded
         os.remove(file_path)
