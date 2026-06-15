@@ -1,6 +1,7 @@
 import os
 import subprocess
 import datetime
+import fcntl
 from flask import Flask, render_template, send_from_directory, redirect, url_for, request
 from dotenv import load_dotenv
 
@@ -36,15 +37,34 @@ def index():
 
 @app.route('/scan', methods=['POST'])
 def scan():
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    file_type = request.form.get('file_type', 'png')  # Default to 'png' if not provided    
-    file_name = f'scannedimage_{timestamp}'
-    full_file_name = f"{file_name}.{file_type}"
+    lock_file_path = os.path.join(SCAN_DIR, 'scan.lock')
     
-    if scan_image(file_type, file_name):
-        return render_template('success.html', file_name=full_file_name, file_type=file_type)
-    else:
-        return render_template('failure.html')
+    # Use a file-based lock to prevent multiple concurrent scans
+    # This works across multiple Gunicorn workers
+    lock_file = None
+    try:
+        lock_file = open(lock_file_path, 'w')
+        fcntl.flock(lock_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except (IOError, BlockingIOError):
+        if lock_file:
+            lock_file.close()
+        return render_template('busy.html')
+
+    try:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        file_type = request.form.get('file_type', 'png')  # Default to 'png' if not provided    
+        file_name = f'scannedimage_{timestamp}'
+        full_file_name = f"{file_name}.{file_type}"
+        
+        if scan_image(file_type, file_name):
+            return render_template('success.html', file_name=full_file_name, file_type=file_type)
+        else:
+            return render_template('failure.html')
+    finally:
+        if lock_file:
+            # Release the lock and close the file
+            fcntl.flock(lock_file, fcntl.LOCK_UN)
+            lock_file.close()
 
 @app.route('/download/<file_name>')
 def download(file_name):
