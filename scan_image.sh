@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Function to run scanimage with customizable file format and output file name
+# Function to run scanimage with customizable file format, output file name, and scan source
 scan_image() {
     local file_format="$1"    # Accept file format (e.g., png)
     local file_name="$2"      # Accept name for the preview scan (e.g., preview_scan.png)
+    local source="${3:-Flatbed}" # Accept scan source (e.g., Flatbed or ADF, default: Flatbed)
 
     # Define the folder in the user's home directory where the file will be saved
     local scan_folder="$HOME/scans"
@@ -16,15 +17,17 @@ scan_image() {
 
     # Run scanimage with the provided parameters and save the output to the file
     # scanimage --mode Color --resolution 300 --format="$file_format" > "$output_file"
-    scanimage -d escl:http://localhost:60000 --mode Color --resolution 300 --format="$file_format" > "$output_file"
+    scanimage -d escl:http://localhost:60000 --source "$source" --mode Color --resolution 300 --format="$file_format" > "$output_file"
 
     # Check if the command was successful
     if [[ $? -eq 0 ]]; then
         echo "Scan completed successfully. Output saved to $output_file"
+        return 0
     else
         echo "Error occurred during scan."
+        return 1
     fi
 }
 
 # Call the function with arguments passed to the script
-scan_image "$1" "$2"
+scan_image "$1" "$2" "$3"

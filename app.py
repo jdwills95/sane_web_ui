@@ -22,9 +22,14 @@ PORT = int(os.getenv("PORT", 5000))  # Default to port 5000 if not set
 os.makedirs(SCAN_DIR, exist_ok=True)
 
 # Function to scan the image
-def scan_image(file_type, file_name):
+def scan_image(file_type, file_name, source='Flatbed'):
     """ Simulate the scanning process by running the bash function """
-    command = f"bash scan_image.sh {file_type} {file_name}"
+    if source not in ['Flatbed', 'ADF']:
+        source = 'Flatbed'
+    if file_type not in ['png', 'tiff', 'pdf']:
+        file_type = 'png'
+
+    command = f"bash scan_image.sh {file_type} {file_name} {source}"
     try:
         subprocess.run(command, shell=True, check=True)
         return True
@@ -52,11 +57,12 @@ def scan():
 
     try:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        file_type = request.form.get('file_type', 'png')  # Default to 'png' if not provided    
+        file_type = request.form.get('file_type', 'png')  # Default to 'png' if not provided
+        source = request.form.get('source', 'Flatbed')  # Default to 'Flatbed' if not provided
         file_name = f'scannedimage_{timestamp}'
         full_file_name = f"{file_name}.{file_type}"
         
-        if scan_image(file_type, file_name):
+        if scan_image(file_type, file_name, source):
             return render_template('success.html', file_name=full_file_name, file_type=file_type)
         else:
             return render_template('failure.html')

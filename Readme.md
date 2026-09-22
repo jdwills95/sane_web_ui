@@ -6,6 +6,7 @@ This project provides a lightweight web interface for scanning documents or imag
 
 - **Web Interface**: A simple web UI built using Flask to scan images from a connected scanner.
 - **Customizable Formats**: Choose between PNG, TIFF, and PDF formats.
+- **Customizable Scan Source**: Choose between Scanner Bed (Flatbed) and Document Feeder (ADF).
 - **File Download**: Download the scanned image once the scan is complete.
 
 ## Requirements
@@ -86,7 +87,7 @@ Directory structure:
 ## Usage
 
 1. Navigate to `http://<your-linux-machine-ip>:5000/` from a browser.
-2. Select a file type (PNG, TIFF, or PDF).
+2. Select a scan source (Scanner Bed or Document Feeder) and a file type (PNG, TIFF, or PDF).
 3. Click the **Scan** button to begin scanning.
 4. Wait for the scan to finish (the button will be disabled, and a loading spinner will appear).
 5. Once the scan completes, download the image from the success page.
