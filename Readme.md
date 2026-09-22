@@ -6,7 +6,7 @@ This project provides a lightweight web interface for scanning documents or imag
 
 - **Web Interface**: A simple web UI built using Flask to scan images from a connected scanner.
 - **Customizable Formats**: Choose between PNG, TIFF, and PDF formats.
-- **Customizable Scan Source**: Choose between Scanner Bed (Flatbed) and Document Feeder (ADF).
+- **Customizable Scan Source**: Choose between Scanner Bed (Flatbed) and Document Feeder (ADF). Multi-page feeder scans are automatically merged into a single document.
 - **File Download**: Download the scanned image once the scan is complete.
 
 ## Requirements
@@ -22,16 +22,17 @@ This project provides a lightweight web interface for scanning documents or imag
 #### On Debian/Ubuntu-based systems:
 ```bash
 sudo apt update
-sudo apt install python3-pip sane-utils
+sudo apt install python3-pip sane-utils poppler-utils libtiff-tools imagemagick
 ```
 
 #### On Arch-based systems:
 ```bash
-sudo pacman -S python-pip sane
+sudo pacman -S python-pip sane poppler libtiff imagemagick
 ```
 
 - `python3-pip`: The Python package manager for installing Flask.
 - `sane-utils`: Tools for scanning (including `scanimage`).
+- `poppler-utils` / `libtiff-tools` / `imagemagick`: Tools for combining multi-page PDF, TIFF, and PNG scans into a single document.
 
 ### Install Python Dependencies
 
