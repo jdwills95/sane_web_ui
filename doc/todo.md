@@ -1,0 +1,3 @@
+- Modernize UI
+- Allow for a selection scanner device i.e. Epson WF 4820 or Canon imageFORMULA R10
+- Dockerize
